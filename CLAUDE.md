@@ -10,10 +10,10 @@ portal (../../jesuit-xc/web, read only, never change it); no shared code.
   and the app script as type text/x-jx-app; src/gate.js signs the member in, reads portals/xc, sets window.D and runs it.
   The school seal is embedded once in the template (base64 PNG, 112 px, from ../brand/dshs-seal.png); build.py reuses it
   in the gate header (`__SEAL_SRC__` in src/gate.html).
-- Not live yet (milestone 3). Plan: repo kevinwelling12/davis-xc, public, Pages from GitHub Actions on push to main;
-  Firebase project for Davis XC with Google sign-in, Firestore rules from firestore.rules, authorized domain
-  kevinwelling12.github.io. src/firebase-config.js (public web config) comes from that project; until then build.py needs
-  a temporary placeholder, which must not be committed. Firestore: members/{email lowercase} {role: admin|coach, name,
+- Live 2026-11-07: https://kevinwelling12.github.io/davis-xc/ (repo kevinwelling12/davis-xc, public, Pages from GitHub
+  Actions on push to main). Firebase project davis-xc: Google sign-in, Firestore (production mode) with rules from
+  firestore.rules (paste into the console and Publish after editing), authorized domain kevinwelling12.github.io.
+  src/firebase-config.js holds the public web config. Firestore: members/{email lowercase} {role: admin|coach, name,
   added, by}; portals/xc {version, chunks, bytes, as_of, updated}; portals/xc/chunks/NNN {data: gzipped JSON}.
   Coaches and parent volunteers both get the coach role (same full view). Gate: saved copy in IndexedDB 'davis-xc',
   member memo 'dx-member', retry flag 'dx-retry', 20 s watchdog, version stamp in the footer.
