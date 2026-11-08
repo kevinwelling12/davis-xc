@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Davis XC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap">
+<style>
+/* Davis High Athletics design system (tokens.json): Montserrat; devil-blue #2D3289 header band, devil-navy #142E54 tabs and
+   footer band; brand-ink for brand text; links in action blue. Radius 4 px for controls, 8 px for cards. */
+:root{
+ --devil-blue:#2D3289;--devil-navy:#142E54;--action-blue:#0074B2;
+ --bg:#FFFFFF;--panel:#F4F5FA;--ink:#181818;--muted:#5C5F6B;--faint:#767676;--line:#D6D9E6;--rule:#767676;
+ --accent:#006399;--on-accent:#FFFFFF;--brand:#2D3289;--brand-ink:#2D3289;--heading:#185594;
+ --chip-on:#2D3289;--chip-on-ink:#FFFFFF;--deep:#2D3289;--navy:#142E54;--band-ink:#FFFFFF;--band-muted:#D5D8F0;
+ --ours:rgba(45,50,137,.08);--ours-edge:#2D3289;--good:#1E6B36;--bad:#860000;--bar:#5C5F6B;--bar-ours:#2D3289;
+ --sans:Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;--pad:16px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#0A0F1C;--panel:#18213A;--ink:#F2F4F8;--muted:#A7B0C2;--faint:#8A93A8;--line:#2A3550;--rule:#8A93A8;
+ --accent:#6CC0F0;--on-accent:#0A0F1C;--brand:#A9AFFF;--brand-ink:#A9AFFF;--heading:#8CBCEB;
+ --chip-on:#A9AFFF;--chip-on-ink:#0A0F1C;--deep:#2D3289;--navy:#142E54;
+ --ours:rgba(169,175,255,.10);--ours-edge:#A9AFFF;--good:#6FD08C;--bad:#FF9A92;--bar:#8A93A8;--bar-ours:#A9AFFF;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#0A0F1C;--panel:#18213A;--ink:#F2F4F8;--muted:#A7B0C2;--faint:#8A93A8;--line:#2A3550;--rule:#8A93A8;
+ --accent:#6CC0F0;--on-accent:#0A0F1C;--brand:#A9AFFF;--brand-ink:#A9AFFF;--heading:#8CBCEB;
+ --chip-on:#A9AFFF;--chip-on-ink:#0A0F1C;--deep:#2D3289;--navy:#142E54;
+ --ours:rgba(169,175,255,.10);--ours-edge:#A9AFFF;--good:#6FD08C;--bad:#FF9A92;--bar:#8A93A8;--bar-ours:#A9AFFF;color-scheme:dark}
+@media (min-width:720px){:root{--pad:24px}}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:500 15px/1.5 var(--sans);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;padding-bottom:env(safe-area-inset-bottom,0)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+a{color:var(--accent);text-underline-offset:3px}
+.num{font-variant-numeric:tabular-nums}
+
+/* header band: devil blue, the seal on a white disc, white wordmark */
+.band{background:var(--deep);color:#fff;padding-top:env(safe-area-inset-top,0)}
+.top{max-width:1040px;margin:0 auto;padding:16px var(--pad) 14px;display:flex;align-items:center;gap:14px}
+.seal{flex:none;width:60px;height:60px;border-radius:50%;background:#fff;padding:6px;display:block}
+.top h1{margin:0;font:800 clamp(20px,5vw,28px)/1.1 var(--sans);color:var(--band-ink)}
+.top p{margin:3px 0 0;color:var(--band-muted);font:700 12px/1.3 var(--sans);letter-spacing:1px;text-transform:uppercase}
+.tabs{position:sticky;top:0;z-index:5;background:var(--navy)}
+.tabs-in{max-width:1040px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;padding:0 calc(var(--pad) - 12px)}
+.tabs-in::-webkit-scrollbar{display:none}
+.tabs button{background:none;border:0;color:#C9CFE0;padding:0 12px;min-height:48px;font:700 12px/1 var(--sans);letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs button:hover{color:#fff}
+.tabs button[aria-selected="true"]{color:#fff;border-bottom-color:#fff}
+.tabs button:focus-visible{outline-color:#fff;outline-offset:-3px}
+@media (max-width:430px){.tabs button{padding:0 9px;letter-spacing:.5px}}
+
+.wrap{max-width:1040px;margin:0 auto;padding:22px var(--pad) 64px}
+section{display:none}section.on{display:block}
+h2{font:700 28px/34px var(--sans);color:var(--brand-ink);margin:0 0 6px}
+h3{font:700 18px/24px var(--sans);color:var(--heading);margin:32px 0 8px}
+.sub{color:var(--muted);font-size:14px;margin:6px 0 14px;max-width:72ch}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 16px}
+.bar.g{margin:4px 0 4px}
+.chip{min-height:40px;border:1px solid var(--line);background:var(--bg);padding:0 14px;border-radius:4px;font:700 12px/1 var(--sans);letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--muted)}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--chip-on);border-color:var(--chip-on);color:var(--chip-on-ink)}
+select,input[type=search]{min-height:40px;border:1px solid var(--faint);border-radius:4px;background:var(--bg);padding:0 10px;max-width:100%}
+input[type=search]{width:min(260px,100%)}
+.tw{overflow-x:auto;margin:0 0 8px;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font:700 11px/1.2 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 8px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:bottom}
+td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+td.r,th.r{text-align:right}
+tr.ours td{background:var(--ours)}
+tr.ours td:first-child{box-shadow:inset 3px 0 0 var(--ours-edge)}
+td .s{display:block;color:var(--muted);font-size:12px;line-height:1.35}
+.lnk{background:none;border:0;padding:0;color:var(--ink);font-weight:700;cursor:pointer;text-align:left;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
+.good{color:var(--good)}.bad{color:var(--bad)}
+.badge{display:inline-block;font:700 10px/1 var(--sans);letter-spacing:.5px;text-transform:uppercase;padding:3px 5px;border-radius:4px;background:var(--panel);color:var(--ink);border:1px solid var(--line);margin-left:6px;vertical-align:1px}
+.badge.pb{background:var(--chip-on);color:var(--chip-on-ink);border-color:var(--chip-on)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:14px 0 8px}
+.card{background:var(--panel);border-radius:8px;padding:14px 16px}
+.card .k{font:700 11px/1.2 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.card .v{font:800 26px/1.15 var(--sans);color:var(--brand-ink);margin-top:6px}
+.card .s{color:var(--muted);font-size:13px}
+.note{background:var(--panel);border-radius:8px;padding:12px 16px;font-size:14px;color:var(--ink);margin:12px 0;max-width:80ch}
+.dist{display:flex;height:14px;min-width:90px;border-radius:4px;overflow:hidden;background:var(--line)}
+.dist span{display:block;height:100%}
+svg text{fill:var(--muted);font:500 11px var(--sans)}
+.chart{width:100%;height:auto;display:block;margin:6px 0 4px}
+.foot{background:var(--navy);color:#C9CFE0;font-size:13px}
+.foot a{color:#fff}
+.foot-in{max-width:1040px;margin:0 auto;padding:18px var(--pad) calc(24px + env(safe-area-inset-bottom,0))}
+.empty{color:var(--muted);padding:20px 0}
+@media (max-width:640px){.hide-s{display:none}}
+</style>
+</head>
+<body>
+<header class="band"><div class="top"><img class="seal" alt="Davis Senior High School seal" src="data:image/png;base64,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"><div><h1>Davis Cross Country</h1><p>Results and projections · coaches and volunteers</p></div></div></header>
+<nav class="tabs" aria-label="Sections"><div class="tabs-in" role="tablist" id="tabs"></div></nav>
+<main class="wrap">
+ <section id="t-roster"></section>
+ <section id="t-runner"></section>
+ <section id="t-meets"></section>
+ <section id="t-proj"></section>
+ <section id="t-sim"></section>
+ <section id="t-model"></section>
+</main>
+<footer class="foot"><div class="foot-in" id="foot"></div></footer>
+<script id="portal-data">window.D = __DATA__;</script>
+<script id="portal-app">
+(function(){
+const D = window.D;
+if (!D || !D.meta) return;
+const OUR = D.meta.team || 'Davis';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = s => { if (s == null) return ''; const m = Math.floor(s / 60), x = s - 60 * m; return m + ':' + (x < 10 ? '0' : '') + x.toFixed(1); };
+const fmt0 = s => { if (s == null) return ''; s = Math.round(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const pace = (s, mi) => mi ? fmt0(s / mi) + '/mi' : '';
+const pct = v => v == null ? '' : Math.round(100 * v) + '%';
+const ord = n => n + (['st','nd','rd'][((n + 90) % 100 - 10) % 10 - 1] || 'th');
+const date = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+const sdate = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
+const distLabel = mi => Math.abs(mi - 3.107) < .02 ? '5K' : Math.abs(mi - 1.988) < .02 ? '3200 m' : Math.abs(mi - 2) < .03 ? '2 mi' : Math.abs(mi - 3) < .03 ? '3 mi' : mi.toFixed(2) + ' mi';
+const seasonOf = d => { const y = +d.slice(0, 4), m = +d.slice(5, 7); return m >= 7 ? y : y - 1; };
+const gradeLabel = g => g ? ({9: 'Fr', 10: 'So', 11: 'Jr', 12: 'Sr'}[g] || g) : '';
+const clsLabel = c => c ? '’' + String(c).slice(2) : '';
+const GN = {M: 'Boys', F: 'Girls'}, gn = g => GN[g] || '';
+const R = D.runners, byId = Object.fromEntries(R.map(r => [r.id, r]));
+const races = D.races, raceById = Object.fromEntries(races.map(r => [r.id, r]));
+const S = {tab: 'roster', g: 'M', rosterAll: false, q: '', runner: null, meetSeason: D.meta.season, meet: null, meetView: 'report', champ: 'section', sim: 0};
+try { Object.assign(S, JSON.parse(localStorage.getItem('dx-ui') || '{}')); } catch (e) {}
+if (!GN[S.g]) S.g = 'M';
+const save = () => { try { localStorage.setItem('dx-ui', JSON.stringify({tab: S.tab, g: S.g, runner: S.runner, meetView: S.meetView, champ: S.champ})); } catch (e) {} };
+const firstOf = g => (R.find(r => r.g === g && r.current) || R.find(r => r.g === g) || {}).id;
+if (!byId[S.runner]) S.runner = firstOf(S.g);
+
+/* result vs expected, in seconds, against the likely (80%) range */
+function vsExp(sec, exp) {
+  if (!exp) return '';
+  const [raw, e, lo, hi] = exp, d = Math.round(sec - e);
+  const head = Math.abs(d) <= 2 ? 'right on it' : Math.abs(d) + ' s ' + (d < 0 ? 'faster' : 'slower');
+  let tail, cls = '';
+  if (sec < lo) { tail = 'ahead of range by ' + Math.round(lo - sec) + ' s'; cls = 'good'; }
+  else if (sec > hi) { tail = 'past range by ' + Math.round(sec - hi) + ' s'; cls = 'bad'; }
+  else tail = 'inside range';
+  return `<span class="${cls}">${head}</span><span class="s">${tail}</span>`;
+}
+
+/* ---------- tabs ---------- */
+const TABS = [['roster', 'Roster'], ['runner', 'Runner'], ['meets', 'Meets'], ['proj', 'Projections'], ['sim', 'Simulation'], ['model', 'Model']]
+  .filter(([k]) => k !== 'sim' || (D.sims && D.sims.length));
+const VIEWS = {roster: roster, runner: runner, meets: meets, proj: proj, sim: sim, model: model};
+$('#tabs').innerHTML = TABS.map(([k, l]) => `<button role="tab" data-tab="${k}" aria-selected="false">${l}</button>`).join('');
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(b.dataset.tab); });
+function go(t, scroll = true) {
+  if (!TABS.some(([k]) => k === t)) t = 'roster';
+  S.tab = t; save();
+  document.querySelectorAll('#tabs button').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  document.querySelectorAll('main section').forEach(s => s.classList.toggle('on', s.id === 't-' + t));
+  VIEWS[t]();
+  if (scroll) window.scrollTo(0, 0);
+}
+document.addEventListener('click', e => {
+  const gb = e.target.closest('[data-g]');
+  if (gb) { S.g = gb.dataset.g; const r = byId[S.runner]; if (!r || r.g !== S.g) S.runner = firstOf(S.g); save(); VIEWS[S.tab](); return; }
+  const a = e.target.closest('[data-runner]');
+  if (a) { S.runner = a.dataset.runner; if (byId[S.runner]) S.g = byId[S.runner].g; go('runner'); return; }
+  const m = e.target.closest('[data-meet]');
+  if (m) { S.meet = m.dataset.meet; S.meetSeason = seasonOf(m.dataset.meet.split('|')[1]); if (raceById[S.meet]) S.g = raceById[S.meet].g; go('meets'); }
+});
+const nameBtn = r => r ? `<button class="lnk" data-runner="${esc(r.id)}">${esc(r.name)}</button>` : '';
+const chips = (items, cur, attr) => items.map(([v, l]) => `<button class="chip" ${attr}="${esc(v)}" aria-pressed="${String(v) === String(cur)}">${esc(l)}</button>`).join('');
+const gchips = () => `<div class="bar g" role="group" aria-label="Boys or girls">${chips([['M', 'Boys'], ['F', 'Girls']], S.g, 'data-g')}</div>`;
+
+/* ---------- roster ---------- */
+function roster() {
+  const el = $('#t-roster'), sea = D.meta.season;
+  const list = R.filter(r => r.g === S.g && (S.rosterAll || r.current) && (!S.q || r.name.toLowerCase().includes(S.q.toLowerCase())));
+  const best = r => { const xs = r.races.filter(x => seasonOf(x.date) === sea && x.eq_day); return xs.length ? Math.min(...xs.map(x => x.eq_day)) : null; };
+  const rows = list.map((r, i) => {
+    const last = r.races[r.races.length - 1], n = r.races.filter(x => seasonOf(x.date) === sea).length;
+    return `<tr><td class="r num">${r.current ? i + 1 : ''}</td><td>${nameBtn(r)}<span class="s">${r.current ? gradeLabel(r.grade) + ' · ' : 'Class of ' + (r.cls || '') + ' · '}${esc(last.level)}</span></td>
+      <td class="r num">${fmt(r.rating)}</td><td class="r num hide-s">${fmt(best(r))}</td><td class="r num hide-s">${r.current ? n : r.n}</td>
+      <td class="hide-s"><button class="lnk" style="font-weight:500" data-meet="${esc(last.race)}">${esc(last.meet)}</button><span class="s">${date(last.date)}</span></td></tr>`;
+  }).join('');
+  el.innerHTML = `<h2>${gn(S.g)} roster</h2>${gchips()}
+   <p class="sub">Rating: each runner's expected time today on the Section finals course (Willow Hills, 5K) in mild weather, from all their races, recent ones counting most. Season best: the fastest single race this season converted to that course on that day.</p>
+   <div class="bar">${chips([[0, D.meta.season + ' season'], [1, 'All years']], +S.rosterAll, 'data-all')}<input type="search" id="rq" placeholder="Find a runner" value="${esc(S.q)}" aria-label="Find a runner"></div>
+   <div class="tw"><table><thead><tr><th class="r">#</th><th>Runner</th><th class="r">Rating</th><th class="r hide-s">Season best</th><th class="r hide-s">Races</th><th class="hide-s">Last race</th></tr></thead><tbody>${rows || '<tr><td colspan="6" class="empty">No runners match.</td></tr>'}</tbody></table></div>`;
+  el.querySelectorAll('[data-all]').forEach(b => b.onclick = () => { S.rosterAll = b.dataset.all === '1'; roster(); });
+  const q = $('#rq'); q.oninput = () => { S.q = q.value; const p = q.selectionStart; roster(); const n = $('#rq'); n.focus(); n.setSelectionRange(p, p); };
+}
+
+/* ---------- runner ---------- */
+function chart(r) {
+  const xs = r.races.filter(x => x.eq_day);
+  if (xs.length < 2) return '';
+  const W = 720, H = 220, L = 44, Rp = 10, T = 12, B = 26;
+  const t = x => new Date(x.date).getTime(), t0 = t(xs[0]), t1 = t(xs[xs.length - 1]) || t0 + 1;
+  const v = xs.map(x => x.eq_day), lo = Math.min(...v), hi = Math.max(...v), pad = Math.max(5, (hi - lo) * .08);
+  const y0 = lo - pad, y1 = hi + pad;
+  const X = x => L + (W - L - Rp) * (t(x) - t0) / Math.max(t1 - t0, 1), Y = s => T + (H - T - B) * (s - y0) / (y1 - y0);
+  const ticks = []; const step = (y1 - y0) > 120 ? 30 : (y1 - y0) > 50 ? 15 : 5;
+  for (let s = Math.ceil(y0 / step) * step; s <= y1; s += step) ticks.push(s);
+  const yrs = []; for (let y = +xs[0].date.slice(0, 4); y <= +xs[xs.length - 1].date.slice(0, 4); y++) yrs.push(y);
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Each race as a Willow Hills 5K time on its day; up is faster">
+   ${ticks.map(s => `<line x1="${L}" x2="${W - Rp}" y1="${Y(s)}" y2="${Y(s)}" stroke="var(--line)"/><text x="${L - 6}" y="${Y(s) + 4}" text-anchor="end">${fmt0(s)}</text>`).join('')}
+   ${yrs.map(y => { const d = {date: y + '-09-01'}; const xx = X(d); return xx >= L && xx <= W - Rp ? `<text x="${xx}" y="${H - 6}" text-anchor="middle">${y}</text>` : ''; }).join('')}
+   ${xs.map(x => `<circle cx="${X(x)}" cy="${Y(x.eq_day)}" r="4" fill="var(--bar-ours)" fill-opacity=".85"><title>${esc(x.meet)} ${sdate(x.date)}: ${x.time} (${fmt(x.eq_day)} Willow Hills 5K)</title></circle>`).join('')}
+   ${r.rating ? `<line x1="${L}" x2="${W - Rp}" y1="${Y(r.rating)}" y2="${Y(r.rating)}" stroke="var(--ink)" stroke-dasharray="4 4"/><text x="${W - Rp}" y="${Y(r.rating) - 5}" text-anchor="end">rating ${fmt(r.rating)}</text>` : ''}
+  </svg>`;
+}
+function runner() {
+  const el = $('#t-runner'), r = byId[S.runner] || byId[firstOf(S.g)];
+  if (!r) { el.innerHTML = `<h2>Runner</h2>${gchips()}<p class="empty">No runners.</p>`; return; }
+  const group = R.filter(x => x.g === r.g);
+  const opts = [['Current', group.filter(x => x.current)], ['Earlier years', group.filter(x => !x.current)]].filter(([, xs]) => xs.length).map(([l, xs]) =>
+    `<optgroup label="${l}">${xs.map(x => `<option value="${esc(x.id)}" ${x.id === r.id ? 'selected' : ''}>${esc(x.name)}${x.current ? '' : ' (' + clsLabel(x.cls) + ')'}</option>`).join('')}</optgroup>`).join('');
+  const champ = c => { const p = r.champs && r.champs[c.key]; return p ? `<div class="card"><div class="k">${esc(c.label)} · ${sdate(c.date)}</div><div class="v num">${fmt(p[0])}</div><div class="s">8 in 10: ${fmt(p[1])} to ${fmt(p[2])}<br>${ord(p[3])} fastest of the ${gn(r.g).toLowerCase()}</div></div>` : ''; };
+  const hist = r.races.slice().reverse().map(x => {
+    return `<tr><td class="num">${sdate(x.date)}<span class="s">${x.date.slice(0, 4)}</span></td>
+     <td><button class="lnk" style="font-weight:500" data-meet="${esc(x.race)}">${esc(x.meet)}</button><span class="s">${esc(x.level)} · ${distLabel(x.dist)}${x.grade ? ' · gr ' + esc(x.grade) : ''}</span></td>
+     <td class="r num">${esc(x.time)}<span class="s">${pace(x.sec, x.dist)}</span></td><td class="r num hide-s">${x.place || ''}${x.field ? '<span class="s">of ' + x.field + '</span>' : ''}</td>
+     <td class="r num hide-s">${fmt(x.eq_day)}</td><td class="r num">${x.exp ? fmt(x.exp[1]) + '<span class="s">' + fmt0(x.exp[2]) + '–' + fmt0(x.exp[3]) + '</span>' : ''}</td><td>${vsExp(x.sec, x.exp)}</td></tr>`;
+  }).join('');
+  el.innerHTML = `<h2>${esc(r.name)}</h2>${gchips()}
+   <p class="sub">${gn(r.g)} · ${r.current ? gradeLabel(r.grade) + ', ' : ''}Class of ${r.cls || '?'} · ${r.n} races since ${date(r.first)}</p>
+   <div class="bar"><select id="rsel" aria-label="Runner">${opts}</select></div>
+   <div class="cards">
+    <div class="card"><div class="k">Rating today</div><div class="v num">${fmt(r.rating)}</div><div class="s">Willow Hills 5K, mild weather${r.sd ? '<br>typical swing ±' + Math.round(100 * r.sd * 1.28) + '%' : ''}</div></div>
+    ${D.meta.champs.map(champ).join('')}
+   </div>
+   <h3>Every race on one scale</h3>
+   <p class="sub">Each race converted to a Willow Hills 5K on its day (course, distance and heat taken out). Up is faster. The dashed line is the rating today.</p>
+   ${chart(r)}
+   <h3>Race history</h3>
+   <p class="sub">Expected: the model's projection the morning of the meet, using only earlier races, adjusted for how the rest of the field ran that day. Range: 8 in 10.</p>
+   <div class="tw"><table><thead><tr><th>Date</th><th>Meet</th><th class="r">Time</th><th class="r hide-s">Place</th><th class="r hide-s">5K equiv</th><th class="r">Expected</th><th>Result</th></tr></thead><tbody>${hist}</tbody></table></div>`;
+  $('#rsel').onchange = e => { S.runner = e.target.value; save(); runner(); };
+}
+
+/* ---------- meets ---------- */
+const LEVELS = ['Varsity', 'JV', 'Soph', 'Frosh/Soph', 'Frosh', 'Youth'];
+function meets() {
+  const el = $('#t-meets');
+  const seasons = [...new Set(races.map(r => seasonOf(r.date)))].sort((a, b) => b - a);
+  if (!seasons.includes(+S.meetSeason)) S.meetSeason = seasons[0];
+  const ms = {}; races.filter(r => seasonOf(r.date) === +S.meetSeason).forEach(r => { const k = r.date + '|' + r.meet; (ms[k] = ms[k] || []).push(r); });
+  const keys = Object.keys(ms).sort().reverse();
+  let cur = S.meet && raceById[S.meet] ? raceById[S.meet] : null;
+  let mk = cur ? cur.date + '|' + cur.meet : keys[0];
+  if (!ms[mk]) mk = keys[0];
+  const all = ms[mk] || [];
+  const rs = all.filter(r => r.g === S.g).sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level));
+  const ours = rs.filter(r => r.rows.some(x => x[6]));
+  if (!cur || !rs.includes(cur)) cur = ours[0] || rs[0];
+  S.meet = cur ? cur.id : (all[0] && all[0].id);
+  const head = `<h2>Meets</h2>${gchips()}
+   <div class="bar"><select id="msea" aria-label="Season">${seasons.map(s => `<option ${s === +S.meetSeason ? 'selected' : ''}>${s}</option>`).join('')}</select>
+   <select id="mmeet" aria-label="Meet" style="flex:1 1 260px">${keys.map(k => { const [d, m] = k.split('|'); return `<option value="${esc(k)}" ${k === mk ? 'selected' : ''}>${sdate(d)} · ${esc(m)}</option>`; }).join('')}</select></div>`;
+  const wire = () => {
+    $('#msea').onchange = e => { S.meetSeason = +e.target.value; S.meet = null; meets(); };
+    $('#mmeet').onchange = e => { const [d, m] = e.target.value.split('|'); const xs = races.filter(x => x.date === d && x.meet === m);
+      const r = xs.find(x => x.g === S.g && x.rows.some(y => y[6])) || xs.find(x => x.g === S.g) || xs[0]; S.meet = r.id; meets(); };
+  };
+  if (!all.length) { el.innerHTML = head + '<p class="empty">No meets.</p>'; wire(); return; }
+  const m0 = all[0];
+  const info = `<p class="sub">${date(m0.date)} · ${esc(m0.course)}${m0.temp != null ? ' · about ' + m0.temp + '°F at race time' : ''}</p>`;
+  if (!cur) { el.innerHTML = head + info + `<p class="empty">No ${gn(S.g).toLowerCase()} races at this meet.</p>`; wire(); return; }
+  const views = chips([['report', 'Report'], ['results', 'Results'], ['teams', 'Team scores']], S.meetView, 'data-view');
+  let body = '';
+  if (S.meetView === 'report') body = report(ours);
+  else {
+    body = `<div class="bar">${chips(rs.map(r => [r.id, r.race.replace(/^(Boys|Girls) /, '')]), cur.id, 'data-race')}</div>` +
+      `<p class="sub">${esc(cur.race)} · ${esc(cur.level)} · ${distLabel(cur.dist)} · ${cur.n} finishers${cur.day != null ? ' · field ran ' + Math.abs(cur.day).toFixed(1) + '% ' + (cur.day > 0 ? 'faster' : 'slower') + ' than projected' : ''}</p>` +
+      (S.meetView === 'results' ? results(cur) : teams(cur));
+  }
+  el.innerHTML = head + info + `<div class="bar">${views}</div>` + body;
+  wire();
+  el.querySelectorAll('[data-view]').forEach(b => b.onclick = () => { S.meetView = b.dataset.view; save(); meets(); });
+  el.querySelectorAll('[data-race]').forEach(b => b.onclick = () => { S.meet = b.dataset.race; meets(); });
+}
+function runnerAt(raceId, name) { for (const r of R) for (const x of r.races) if (x.race === raceId && r.name === name) return [r, x]; return [null, null]; }
+function report(ours) {
+  if (!ours.length) return `<p class="empty">No ${OUR} ${gn(S.g).toLowerCase()} at this meet.</p>`;
+  return ours.map(rc => {
+    const rows = rc.rows.filter(x => x[6]).map(x => {
+      const [r, h] = runnerAt(rc.id, x[1]);
+      const prev = r ? r.races.filter(y => y.date < rc.date) : [];
+      const pb = r && h && h.eq_day && prev.length && prev.every(y => !y.eq_day || y.eq_day > h.eq_day) ? '<span class="badge pb">Best yet</span>' : '';
+      const first = r && !prev.length ? '<span class="badge">First race</span>' : '';
+      return `<tr class="ours"><td class="r num">${x[0] ?? ''}</td><td>${r ? nameBtn(r) : esc(x[1])}${pb}${first}<span class="s">${x[2] ? 'gr ' + esc(x[2]) : ''}</span></td>
+       <td class="r num">${esc(x[4])}<span class="s">${pace(x[5], rc.dist)}</span></td>
+       <td class="r num hide-s">${h && h.exp ? fmt(h.exp[1]) + '<span class="s">' + fmt0(h.exp[2]) + '–' + fmt0(h.exp[3]) + '</span>' : ''}</td><td>${h ? vsExp(x[5], h.exp) : ''}</td></tr>`;
+    }).join('');
+    const ts = rc.teams.findIndex(t => t.team === OUR);
+    const team = ts >= 0 ? `${OUR} ${ord(ts + 1)} of ${rc.teams.length} teams, ${rc.teams[ts].pts} points (unofficial)` : `${OUR} did not score as a team`;
+    return `<h3>${esc(rc.race)}</h3><p class="sub">${esc(rc.level)} · ${distLabel(rc.dist)} · ${rc.n} finishers · ${team}${rc.day != null ? ' · field ran ' + Math.abs(rc.day).toFixed(1) + '% ' + (rc.day > 0 ? 'faster' : 'slower') + ' than projected' : ''}</p>
+     <div class="tw"><table><thead><tr><th class="r">Pl</th><th>Runner</th><th class="r">Time</th><th class="r hide-s">Expected</th><th>Result</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }).join('') + '<p class="sub">Expected: projection the morning of the meet from earlier races only, shifted by how the rest of the field ran against their own projections. Green: ahead of the 8-in-10 range. Red: past it.</p>';
+}
+function results(rc) {
+  const nm = Object.fromEntries(R.filter(r => r.g === rc.g).map(r => [r.name, r]));
+  return `<div class="tw"><table><thead><tr><th class="r">Pl</th><th>Name</th><th class="hide-s">Gr</th><th>Team</th><th class="r">Time</th><th class="r hide-s">Pace</th></tr></thead><tbody>${rc.rows.map(x =>
+    `<tr class="${x[6] ? 'ours' : ''}"><td class="r num">${x[0] ?? ''}</td><td>${x[6] && nm[x[1]] ? nameBtn(nm[x[1]]) : esc(x[1] || '(name hidden)')}${x[7] ? '<span class="badge">Exh</span>' : ''}</td><td class="hide-s">${esc(x[2])}</td><td>${esc(x[3])}</td><td class="r num">${esc(x[4])}</td><td class="r num hide-s">${pace(x[5], rc.dist)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function teams(rc) {
+  if (!rc.teams.length) return '<p class="empty">No team had 5 finishers.</p>';
+  return `<p class="sub">Unofficial: teams with 5 or more finishers, top 5 score, 6th and 7th displace. The meet's official scoring may differ.</p>
+   <div class="tw"><table><thead><tr><th class="r">#</th><th>Team</th><th class="r">Points</th><th>Team places (1-5 score, 6-7 displace)</th></tr></thead><tbody>${rc.teams.map((t, i) =>
+    `<tr class="${t.team === OUR ? 'ours' : ''}"><td class="r num">${i + 1}</td><td>${esc(t.team)}</td><td class="r num"><b>${t.pts}</b></td><td class="num">${t.places.map((p, j) => j < 5 ? p : `<span style="color:var(--muted)">${p}</span>`).join(', ')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+/* ---------- projections ---------- */
+function shiftNote(c, g) {
+  const f = c.field_shift && (typeof c.field_shift === 'object' ? c.field_shift[g] : c.field_shift);
+  if (!f) return '';
+  const where = c.key === 'section' ? 'Section finals' : c.label;
+  return ` Includes the ${where} level for ${gn(g).toLowerCase()}: in past years they ran ${Math.abs(100 * f).toFixed(1)}% ${f < 0 ? 'faster' : 'slower'} there than projected from earlier races.`;
+}
+function proj() {
+  const el = $('#t-proj'), c = D.meta.champs.find(x => x.key === S.champ) || D.meta.champs[0];
+  const list = R.filter(r => r.g === S.g && r.champs && r.champs[c.key]).sort((a, b) => a.champs[c.key][3] - b.champs[c.key][3]);
+  const top5 = list.slice(0, 5).map(r => r.champs[c.key][0]);
+  el.innerHTML = `<h2>Projections</h2>${gchips()}
+   <div class="bar">${chips(D.meta.champs.map(x => [x.key, x.label]), c.key, 'data-champ')}</div>
+   <p class="sub">${date(c.date)} · ${esc(c.course)} · ${distLabel(c.dist)} · ${c.temp}°F expected. Every ${OUR} ${gn(S.g).toLowerCase().replace(/s$/, '')} who raced this season, in projected order, so no two share a place.${shiftNote(c, S.g)} Who runs depends on qualifying.</p>
+   ${top5.length === 5 ? `<div class="cards"><div class="card"><div class="k">Top 5 average</div><div class="v num">${fmt(top5.reduce((a, b) => a + b) / 5)}</div><div class="s">1-5 spread ${fmt0(top5[4] - top5[0])}</div></div></div>` : ''}
+   <div class="tw"><table><thead><tr><th class="r">#</th><th>Runner</th><th class="r">Expected</th><th class="r">8 in 10</th><th class="r hide-s">Rating today</th></tr></thead><tbody>${list.map(r => { const p = r.champs[c.key];
+     return `<tr class="${p[3] <= 7 ? 'ours' : ''}"><td class="r num">${p[3]}</td><td>${nameBtn(r)}<span class="s">${gradeLabel(r.grade)} · ${esc(r.level)}</span></td><td class="r num"><b>${fmt(p[0])}</b></td><td class="r num">${fmt0(p[1])}–${fmt0(p[2])}</td><td class="r num hide-s">${fmt(r.rating)}</td></tr>`; }).join('') || '<tr><td colspan="5" class="empty">No projections.</td></tr>'}</tbody></table></div>`;
+  el.querySelectorAll('[data-champ]').forEach(b => b.onclick = () => { S.champ = b.dataset.champ; save(); proj(); });
+}
+
+/* ---------- simulation ---------- */
+const divGender = d => /girls/i.test(d) ? 'F' : /boys/i.test(d) ? 'M' : null;
+function sim() {
+  const el = $('#t-sim'), sims = D.sims || [];
+  if (!sims.length) { el.innerHTML = '<h2>Simulation</h2><p class="empty">No upcoming championship simulation.</p>'; return; }
+  const s = sims[S.sim] || sims[0], divs = Object.keys(s.races);
+  const dv = divs.find(d => divGender(d) === S.g);
+  const label = x => x.scenario ? x.meet.split(', ').slice(2).join(', ') || x.meet.split(', ').slice(1).join(', ') || 'Scenario' : 'As modeled';
+  const top = `<h2>Simulation</h2>${gchips()}<div class="bar">${chips(sims.map((x, i) => [i, label(x)]), sims.indexOf(s), 'data-sim')}</div>`;
+  const wire = () => el.querySelectorAll('[data-sim]').forEach(b => b.onclick = () => { S.sim = +b.dataset.sim; sim(); });
+  if (!dv) { el.innerHTML = top + `<p class="empty">No ${gn(S.g).toLowerCase()} race in this simulation.</p>`; wire(); return; }
+  const r = s.races[dv];
+  const col = i => i === 0 ? 'var(--bar-ours)' : `color-mix(in srgb, var(--bar) ${Math.max(15, 100 - i * 18)}%, transparent)`;
+  const shift = s.field_shift && typeof s.field_shift === 'object' ? s.field_shift[dv] : s.field_shift;
+  el.innerHTML = top + `
+   <p class="sub">${esc(dv)} · ${esc(s.meet.split(',')[0])} · ${date(s.date)} · ${esc(s.course)} · ${r.field} runners, ${s.n_sims.toLocaleString()} simulated races, model fitted through ${date(s.fit_through)}.${shift ? ` Times include the measured Section-day level (${gn(S.g).toLowerCase()} ${Math.abs(100 * shift).toFixed(1)}% ${shift < 0 ? 'faster' : 'slower'} than projected); places and scores do not depend on it.` : ''}</p>
+   ${/provisional/i.test(s.meet) ? '<div class="note">Provisional field: last year\'s teams in this division, each with its 7 best-rated runners this season. It will be rebuilt from the real qualifiers once Subsection results post.</div>' : ''}
+   <h3>Teams</h3>
+   <div class="tw"><table><thead><tr><th>Team</th><th class="r">Win</th><th>Place chances, 1st at left</th><th class="r hide-s">Points, 8 in 10</th><th class="r">To State</th></tr></thead><tbody>${r.teams.map(t =>
+    `<tr class="${t.team === OUR ? 'ours' : ''}"><td>${esc(t.team)}<span class="s">avg place ${t.place_dist.reduce((a, p, i) => a + p * (i + 1), 0).toFixed(1)}</span></td><td class="r num"><b>${pct(t.win)}</b></td>
+     <td><div class="dist" title="${t.place_dist.map((p, i) => (i + 1) + ': ' + pct(p)).join(', ')}">${t.place_dist.map((p, i) => p > .004 ? `<span style="width:${100 * p}%;background:${col(i)}"></span>` : '').join('')}</div></td>
+     <td class="r num hide-s">${t.pts_med}<span class="s">${t.pts_lo}–${t.pts_hi}</span></td><td class="r num">${pct(t.state)}</td></tr>`).join('')}</tbody></table></div>
+   <h3>${OUR} runners</h3>
+   <div class="tw"><table><thead><tr><th>Runner</th><th class="r">Expected</th><th class="r hide-s">8 in 10</th><th class="r">Place</th><th class="r hide-s">Place 8 in 10</th><th class="r">Top 10</th></tr></thead><tbody>${r.runners.filter(x => x.Team === OUR).map(x => { const rr = R.find(y => y.name === x.name && y.g === S.g && y.current);
+    return `<tr class="ours"><td>${rr ? nameBtn(rr) : esc(x.name)}<span class="s">gr ${esc(x.grade)}</span></td><td class="r num"><b>${fmt(x.pred)}</b></td><td class="r num hide-s">${fmt0(x.lo)}–${fmt0(x.hi)}</td><td class="r num">${x.place_med}</td><td class="r num hide-s">${x.place_lo}–${x.place_hi}</td><td class="r num">${pct(x.top10)}</td></tr>`; }).join('')}</tbody></table></div>
+   <h3>Projected top 20</h3>
+   <div class="tw"><table><thead><tr><th class="r">#</th><th>Runner</th><th>Team</th><th class="r">Expected</th><th class="r hide-s">Top 10</th></tr></thead><tbody>${r.runners.slice(0, 20).map(x =>
+    `<tr class="${x.Team === OUR ? 'ours' : ''}"><td class="r num">${x.place_med}</td><td>${esc(x.name)}</td><td>${esc(x.Team)}</td><td class="r num">${fmt(x.pred)}</td><td class="r num hide-s">${pct(x.top10)}</td></tr>`).join('')}</tbody></table></div>
+   <p class="sub">Each simulated race draws every runner's time around their projection with their own spread. Unofficial scoring: teams of 5+, top 5 score, 6th and 7th displace. State: the top teams by the measured allocation for this division, then up to 5 individuals not on those teams. Places are distinct, ordered by projected time.</p>`;
+  wire();
+}
+
+/* ---------- model ---------- */
+function model() {
+  const a = D.meta.accuracy || {}, el = $('#t-model'), g = S.g, bg = a.by_g && a.by_g[g];
+  const row = (k, x) => x ? `<tr><td>${esc(k)}</td><td class="r num">${x.n.toLocaleString()}</td><td class="r num">${x.mape}%</td><td class="r num hide-s">${x.lean > 0 ? '+' : ''}${x.lean}%</td><td class="r num">${x.cover}%</td></tr>` : '';
+  const G = gn(g), mins = g === 'M' ? 16 : 19, gr = D.meta.growth && D.meta.growth[g];
+  const riegel = typeof D.meta.riegel === 'object' ? D.meta.riegel[g] : D.meta.riegel;
+  el.innerHTML = `<h2>Model</h2>${gchips()}
+   <p class="sub">How the projections are made and how well they have held up. Boys and girls each have their own model.</p>
+   ${a.all ? `<div class="cards">
+    ${bg ? `<div class="card"><div class="k">${OUR} ${G.toLowerCase()} typical miss</div><div class="v num">${bg.ours.mape}%</div><div class="s">about ${Math.round(bg.ours.mape * mins * .6)} s in a ${mins}-minute 5K</div></div>
+    <div class="card"><div class="k">Inside 8-in-10 range</div><div class="v num">${bg.ours.cover}%</div><div class="s">${OUR} ${G.toLowerCase()} (80% is right)</div></div>
+    <div class="card"><div class="k">All ${G.toLowerCase()}</div><div class="v num">${bg.all.mape}%</div><div class="s">${bg.all.n.toLocaleString()} predictions</div></div>` : ''}
+    <div class="card"><div class="k">Order within a race</div><div class="v num">${a.within}%</div><div class="s">miss after the day's conditions, all runners</div></div></div>
+   <h3>Strict backtest</h3>
+   <p class="sub">Before each meet date since ${date(a.since.slice(0, 10))} the model was refit on earlier races only and asked to predict that meet. Lean +: predicted slower than run.</p>
+   <div class="tw"><table><thead><tr><th>Group</th><th class="r">Predictions</th><th class="r">Typical miss</th><th class="r hide-s">Lean</th><th class="r">In range</th></tr></thead><tbody>
+    ${row('All runners', a.all)}${bg ? row('All ' + G.toLowerCase(), bg.all) + row(OUR + ' ' + G.toLowerCase(), bg.ours) : ''}${row(OUR + ', boys and girls', a.ours)}
+    ${(a.by_year || []).filter(x => !x.g || x.g === g).map(x => row(`${OUR} ${G.toLowerCase()} ${x.year}`, x)).join('')}${(a.by_level || []).map(x => row('All runners, ' + x.level, x)).join('')}</tbody></table></div>` : ''}
+   <h3>How it works</h3>
+   <div class="sub"><p>Every race is put on one scale: the pace a runner would hold for 5K, with the distance scaled by a fitted exponent (${riegel} for ${G.toLowerCase()}) so 2-mile, 3-mile and 3200 m races count too.</p>
+   <p>Course and race effects are fitted from runners who ran more than one race, with Willow Hills (the Section finals) at zero. Heat is a separate term from the race-time weather.</p>
+   <p>Each runner's rating weights recent races most and lets a single bad day count less. In-season improvement is fitted by school grade${gr ? `: for ${G.toLowerCase()}, about ${gr.map(x => Math.round(100 * x) + '%').join(', ')} a year for grades 9 to 12` : ''}.</p>
+   <p>Boys and girls are fitted separately. With one shared model, girls' projections ran about 5% too fast.</p>
+   <p>Ranges are 8 in 10: about one race in five should land outside, half of those on each side.</p>
+   <p>Real race results are never edited or left out. Only source errors are fixed, such as a finisher posted twice.</p></div>`;
+}
+
+$('#foot').innerHTML = `Data through ${date(D.meta.as_of)} · ${D.meta.n_meets} meets, ${D.meta.n_races} races with ${OUR} runners, ${D.meta.n_runners} ${OUR} athletes since 2021. Results from athletic.net and meet timers. Team scores are unofficial.`;
+go(S.tab, false);
+})();
+</script>
+</body>
+</html>
