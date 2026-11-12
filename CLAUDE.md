@@ -36,7 +36,9 @@ portal (../../jesuit-xc/web, read only, never change it); no shared code.
   the strict pre-meet expected time, shifted by how the rest of the field ran, and the 8-in-10 range), Meets (Report,
   Results, Team scores; races of the chosen gender), Projections (Section finals and State for every current runner of
   that gender, distinct places by projected time, with the measured field shift for that gender), Simulation
-  (section_sim.py results; the Boys D1 or Girls D1 race by the chip; scenarios as chips), Model (strict backtest by gender
+  (section_sim.py results; the Boys D1 or Girls D1 race by the chip; scenarios as chips), Courses (D.courses: each course and
+  distance Davis has raced, per gender, as % faster or slower than the Willow Hills 5K after distance, and the time there for a
+  Willow Hills 5K time the viewer types, starting at the middle of Davis's current top 7; 1-2 rated races marked few races), Model (strict backtest by gender
   from accuracy.by_g and by_year with g; distance exponent and growth per gender).
 - Team scores are unofficial: teams of 5+, top 5 score, 6th and 7th displace, exhibition and unattached left out.
 - Before any commit: run ../pipeline/scripts/check_web_clean.py, which searches this repo for every athlete name in the

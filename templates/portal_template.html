@@ -64,6 +64,9 @@ h3{font:700 18px/24px var(--sans);color:var(--heading);margin:32px 0 8px}
 .chip[aria-pressed="true"]{background:var(--chip-on);border-color:var(--chip-on);color:var(--chip-on-ink)}
 select,input[type=search]{min-height:40px;border:1px solid var(--faint);border-radius:4px;background:var(--bg);padding:0 10px;max-width:100%}
 input[type=search]{width:min(260px,100%)}
+input.ct{min-height:40px;width:6.5em;border:1px solid var(--faint);border-radius:4px;background:var(--bg);padding:0 10px;text-align:right}
+tr.thin td{color:var(--muted)}
+tr.ref td{font-weight:700}
 .tw{overflow-x:auto;margin:0 0 8px;-webkit-overflow-scrolling:touch}
 table{border-collapse:collapse;width:100%;font-size:14px}
 th{font:700 11px/1.2 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 8px;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:bottom}
@@ -96,7 +99,8 @@ svg text{fill:var(--muted);font:500 11px var(--sans)}
 .foot a{color:#fff}
 .foot-in{max-width:1040px;margin:0 auto;padding:18px var(--pad) calc(24px + env(safe-area-inset-bottom,0))}
 .empty{color:var(--muted);padding:20px 0}
-@media (max-width:640px){.hide-s{display:none}}
+.show-s{display:none}
+@media (max-width:640px){.hide-s{display:none}.show-s{display:inline}}
 </style>
 </head>
 <body>
@@ -107,6 +111,7 @@ svg text{fill:var(--muted);font:500 11px var(--sans)}
  <section id="t-runner"></section>
  <section id="t-meets"></section>
  <section id="t-proj"></section>
+ <section id="t-courses"></section>
  <section id="t-sim"></section>
  <section id="t-model"></section>
 </main>
@@ -153,9 +158,9 @@ function vsExp(sec, exp) {
 }
 
 /* ---------- tabs ---------- */
-const TABS = [['roster', 'Roster'], ['runner', 'Runner'], ['meets', 'Meets'], ['proj', 'Projections'], ['sim', 'Simulation'], ['model', 'Model']]
-  .filter(([k]) => k !== 'sim' || (D.sims && D.sims.length));
-const VIEWS = {roster: roster, runner: runner, meets: meets, proj: proj, sim: sim, model: model};
+const TABS = [['roster', 'Roster'], ['runner', 'Runner'], ['meets', 'Meets'], ['proj', 'Projections'], ['courses', 'Courses'], ['sim', 'Simulation'], ['model', 'Model']]
+  .filter(([k]) => (k !== 'sim' || (D.sims && D.sims.length)) && (k !== 'courses' || (D.courses && D.courses.length)));
+const VIEWS = {roster: roster, runner: runner, meets: meets, proj: proj, courses: courses, sim: sim, model: model};
 $('#tabs').innerHTML = TABS.map(([k, l]) => `<button role="tab" data-tab="${k}" aria-selected="false">${l}</button>`).join('');
 $('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(b.dataset.tab); });
 function go(t, scroll = true) {
@@ -377,6 +382,34 @@ function sim() {
     `<tr class="${x.Team === OUR ? 'ours' : ''}"><td class="r num">${x.place_med}</td><td>${esc(x.name)}</td><td>${esc(x.Team)}</td><td class="r num">${fmt(x.pred)}</td><td class="r num hide-s">${pct(x.top10)}</td></tr>`).join('')}</tbody></table></div>
    <p class="sub">Each simulated race draws every runner's time around their projection with their own spread. Unofficial scoring: teams of 5+, top 5 score, 6th and 7th displace. State: the top teams by this division's allocation, then up to ${s.indiv_to_state || 5} individuals not on those teams${s.indiv_max_place ? ', each finishing in the top ' + s.indiv_max_place : ''} (CIF State handbook). Places are distinct, ordered by projected time.</p>`;
   wire();
+}
+
+/* ---------- courses ---------- */
+/* Course ratings from the model: each course and distance Davis has raced, against the Willow Hills 5K (rel, log pace). The same
+   runner on the same day runs T * exp(rel) * (dist / 5K)^riegel there, where T is their Willow Hills 5K time. */
+const CT = {}, parseT = v => { const m = String(v).trim().match(/^(\d{1,2}):(\d{1,2}(?:\.\d)?)$/); return m && +m[2] < 60 ? 60 * m[1] + +m[2] : null; };
+function courses() {
+  const el = $('#t-courses'), g = S.g, G = gn(g).toLowerCase(), cs = D.courses.filter(c => c.g === g);
+  const rg = typeof D.meta.riegel === 'object' ? D.meta.riegel[g] : D.meta.riegel;
+  const top = R.filter(r => r.g === g && r.current && r.rating).map(r => r.rating).sort((a, b) => a - b).slice(0, 7);
+  if (CT[g] == null) CT[g] = top.length ? Math.round(top[Math.floor((top.length - 1) / 2)]) : (g === 'M' ? 1020 : 1200);
+  const T = CT[g], ours = c => races.filter(r => r.g === g && r.course === c.course && Math.abs(r.dist - c.dist) < .006).length;
+  const isRef = c => c.course === D.meta.ref_course && Math.abs(c.dist - D.meta.ref_mi) < .006;
+  const vs = c => { const p = 100 * (Math.exp(c.rel) - 1); return isRef(c) ? 'the reference' : Math.abs(p) < .05 ? 'same' : Math.abs(p).toFixed(1) + '%<span class="s">' + (p < 0 ? 'faster' : 'slower') + '</span>'; };
+  const list = cs.slice().sort(S.csort === 'course' ? (a, b) => a.course.localeCompare(b.course) || a.dist - b.dist : (a, b) => a.rel - b.rel);
+  const split = s => { const i = s.lastIndexOf(', '); return i > 0 ? [s.slice(0, i), s.slice(i + 2)] : [s, '']; };
+  const rows = list.map(c => { const [nm, city] = split(c.course), k = ours(c);
+    return `<tr class="${isRef(c) ? 'ref' : c.n < 3 ? 'thin' : ''}"><td>${esc(nm)}<span class="s">${esc(city)}<span class="show-s"> · ${distLabel(c.dist)}</span>${c.n < 3 ? ' · few races' : ''}</span></td>
+      <td class="r num hide-s">${distLabel(c.dist)}</td><td class="r num">${vs(c)}</td><td class="r num">${fmt(T * Math.exp(c.rel) * Math.pow(c.dist / D.meta.ref_mi, rg))}<span class="s">${pace(T * Math.exp(c.rel) * Math.pow(c.dist / D.meta.ref_mi, rg), c.dist)}</span></td>
+      <td class="r num hide-s">${c.n}<span class="s">${k} with ${OUR}</span></td><td class="r num hide-s">${c.y0 === c.y1 ? c.y0 : c.y0 + '–' + String(c.y1).slice(2)}</td></tr>`; }).join('');
+  el.innerHTML = `<h2>Course ratings</h2>${gchips()}
+   <p class="sub">How fast each course ${OUR} ${G} have raced is, at each distance, compared with the Section finals course (Willow Hills 5K). The percentage compares pace after allowing for distance. Time: what a runner with the Willow Hills 5K time below would run there on the same day in mild weather.</p>
+   <div class="bar"><label for="ct" style="font-size:14px">Willow Hills 5K time</label><input class="ct num" id="ct" inputmode="decimal" value="${fmt0(T)}" aria-describedby="ct-h"><span id="ct-h" class="sub" style="margin:0">${top.length ? `to start, the middle of ${OUR}'s top 7 ${G}` : ''}</span></div>
+   <div class="bar">${chips([['rel', 'Fastest first'], ['course', 'By course']], S.csort === 'course' ? 'course' : 'rel', 'data-cs')}</div>
+   <div class="tw"><table><thead><tr><th>Course</th><th class="r hide-s">Distance</th><th class="r">Vs Willow Hills</th><th class="r">Time</th><th class="r hide-s">Races</th><th class="r hide-s">Years</th></tr></thead><tbody>${rows || `<tr><td colspan="6" class="empty">No course ratings for ${G}.</td></tr>`}</tbody></table></div>
+   <p class="sub">From the model: each course is rated by runners who also raced elsewhere, recent years counting most, with heat and the point in the season taken out. Races: rated races there, all teams, and how many had ${OUR} ${G}. A course with only one or two rated races (marked few races) is less certain. Names are as the meets posted them, so one park can appear under two names.</p>`;
+  const inp = $('#ct'); inp.onchange = () => { const v = parseT(inp.value); if (v && v > 600 && v < 2400) CT[g] = v; courses(); };
+  el.querySelectorAll('[data-cs]').forEach(b => b.onclick = () => { S.csort = b.dataset.cs; courses(); });
 }
 
 /* ---------- model ---------- */
